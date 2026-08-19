@@ -1,0 +1,140 @@
+@php
+    $headerNavItems = \App\Models\NavigationItem::getTree();
+    $siteName = SettingsHelper::get('site_name', 'Swift-Ride-taxis');
+    $siteLogo = SettingsHelper::get('logo');
+    $companyPhone = SettingsHelper::get('company_phone', '020 1234 5678');
+@endphp
+
+<!-- ==========================================================================
+     HEADER / NAVBAR
+     ========================================================================== -->
+<header class="sr-header" id="srHeader">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+            <!-- Brand Logo -->
+            <a href="{{ route('home') }}" class="sr-brand">
+                <span class="sr-brand-mark">
+                    @if($siteLogo)
+                        <img src="{{ asset($siteLogo) }}" alt="{{ $siteName }}" style="width:32px;height:32px;object-fit:contain;">
+                    @else
+                        <span class="cr-logo">SR</span>
+                    @endif
+                </span>
+                <span class="sr-brand-text">
+                    <span class="name">{{ $siteName }}</span>
+                    <span class="tag-badge"><i class="bi bi-shield-check me-1"></i> PREMIUM AIRPORT TRANSFERS</span>
+                </span>
+            </a>
+
+            <!-- Desktop Nav Links (Database Driven) -->
+            <ul class="sr-nav-links d-none d-xl-flex">
+                @foreach($headerNavItems as $navItem)
+                    @if($navItem->hasActiveChildren())
+                        <li class="sr-nav-dropdown">
+                            <a href="{{ $navItem->url }}" target="{{ $navItem->target }}">
+                                {{ $navItem->label }} <i class="bi bi-chevron-down chevron"></i>
+                            </a>
+                            <ul class="sr-dropdown-menu">
+                                @foreach($navItem->activeChildren as $childItem)
+                                    <li>
+                                        <a href="{{ $childItem->url }}" target="{{ $childItem->target }}">
+                                            {{ $childItem->label }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @else
+                        <li>
+                            <a href="{{ $navItem->url }}" target="{{ $navItem->target }}">
+                                {{ $navItem->label }}
+                            </a>
+                        </li>
+                    @endif
+                @endforeach
+            </ul>
+
+            <!-- Header Right Action -->
+            <div class="sr-header-right d-none d-md-flex">
+                <a href="tel:{{ preg_replace('/[^0-9+]/', '', $companyPhone) }}" class="sr-phone-box text-decoration-none">
+                    <span class="sr-phone-icon"><i class="bi bi-telephone-fill"></i></span>
+                    <span class="sr-phone-text">
+                        <span class="num d-block">{{ $companyPhone }}</span>
+                        <span class="sup">24/7 Support</span>
+                    </span>
+                </a>
+                <a href="{{ route('home') }}#quote" class="sr-header-cta">GET A QUOTE</a>
+            </div>
+
+            <!-- Mobile Offcanvas Sidebar Toggler -->
+            <button class="sr-navbar-toggler d-xl-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#srMobileSidebar" aria-controls="srMobileSidebar" aria-label="Toggle navigation">
+                <i class="bi bi-list fs-3"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- ==========================================================================
+     MOBILE OFFCANVAS SIDEBAR DRAWER
+     ========================================================================== -->
+<div class="offcanvas offcanvas-end sr-offcanvas-sidebar" tabindex="-1" id="srMobileSidebar" aria-labelledby="srMobileSidebarLabel">
+    <div class="offcanvas-header border-bottom border-secondary border-opacity-25 pb-3 pt-4 px-4">
+        <a href="{{ route('home') }}" class="sr-brand">
+            <span class="sr-brand-mark">
+                @if($siteLogo)
+                    <img src="{{ asset($siteLogo) }}" alt="{{ $siteName }}" style="width:32px;height:32px;object-fit:contain;">
+                @else
+                    <span class="cr-logo">SR</span>
+                @endif
+            </span>
+            <span class="sr-brand-text">
+                <span class="name">{{ $siteName }}</span>
+                <span class="tag-badge"><i class="bi bi-shield-check me-1"></i> PREMIUM</span>
+            </span>
+        </a>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+
+    <div class="offcanvas-body d-flex flex-column justify-content-between p-4">
+        <!-- Mobile Nav Links (Database Driven) -->
+        <ul class="sr-sidebar-nav list-unstyled">
+            @foreach($headerNavItems as $navItem)
+                @if($navItem->hasActiveChildren())
+                    <li class="mb-2">
+                        <div class="d-flex align-items-center justify-content-between py-1">
+                            <a href="{{ $navItem->url }}" target="{{ $navItem->target }}" class="fw-bold text-white text-decoration-none">
+                                {{ $navItem->label }}
+                            </a>
+                        </div>
+                        <ul class="list-unstyled ps-3 mt-1 border-start border-secondary border-opacity-25">
+                            @foreach($navItem->activeChildren as $childItem)
+                                <li class="py-1">
+                                    <a href="{{ $childItem->url }}" target="{{ $childItem->target }}" class="text-white-50 small text-decoration-none">
+                                        {{ $childItem->label }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                @else
+                    <li class="py-2">
+                        <a href="{{ $navItem->url }}" target="{{ $navItem->target }}" class="text-white text-decoration-none fw-semibold fs-6">
+                            {{ $navItem->label }}
+                        </a>
+                    </li>
+                @endif
+            @endforeach
+        </ul>
+
+        <div class="sr-sidebar-footer pt-3 border-top border-secondary border-opacity-25">
+            <a href="tel:{{ preg_replace('/[^0-9+]/', '', $companyPhone) }}" class="sr-phone-box mb-3 d-flex align-items-center text-decoration-none">
+                <span class="sr-phone-icon me-3"><i class="bi bi-telephone-fill"></i></span>
+                <span class="sr-phone-text">
+                        <span class="num d-block text-white">{{ $companyPhone }}</span>
+                    <span class="sup text-white-50">24/7 Customer Support</span>
+                </span>
+            </a>
+            <a href="{{ route('home') }}#quote" class="sr-header-cta d-block text-center w-100 py-3">GET A QUOTE</a>
+        </div>
+    </div>
+</div>
