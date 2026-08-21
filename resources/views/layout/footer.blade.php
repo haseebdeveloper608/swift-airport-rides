@@ -1,5 +1,6 @@
 @php
     $siteName = SettingsHelper::get('site_name', 'Swift-Ride-taxis');
+    $siteLogo = SettingsHelper::get('logo', 'images/logo.png');
     $companyPhone = SettingsHelper::get('company_phone', '020 1234 5678');
     $companyEmail = SettingsHelper::get('company_email', 'support@swiftridetaxis.co.uk');
     $companyAddress = SettingsHelper::get('company_address');
@@ -31,13 +32,7 @@
         <div class="row g-4">
             <div class="col-lg-4 col-md-6">
                 <a href="{{ route('home') }}" class="sr-brand mb-3">
-                    <span class="sr-brand-mark">
-                        <span class="cr-logo">SR</span>
-                    </span>
-                    <span class="sr-brand-text">
-                        <span class="name">{{ $siteName }}</span>
-                        <span class="tag-badge"><i class="bi bi-shield-check me-1"></i> PREMIUM AIRPORT TRANSFERS</span>
-                    </span>
+                    <img src="{{ asset($siteLogo) }}" alt="{{ $siteName }}" class="sr-logo-img">
                 </a>
                 <p class="mt-3 text-white-50" style="font-size:14px; max-width:320px;">
                     {{ $footerAbout }}

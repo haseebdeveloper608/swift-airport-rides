@@ -589,60 +589,21 @@
         }
 
         .sr-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-        .sr-brand-mark {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #091932 0%, #162B4E 100%);
-            border: 1.5px solid rgba(255,255,255,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-            position: relative;
-        }
-        .sr-brand-mark span.cr-logo {
-            font-family: var(--sr-font-display);
-            font-weight: 900;
-            font-size: 18px;
-            background: linear-gradient(135deg, #5843F6 0%, #4332D9 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
-        }
-        .sr-brand-text {
-            display: flex;
-            flex-direction: column;
-        }
-        .sr-brand-text .name {
-            font-family: var(--sr-font-display);
-            font-weight: 900;
-            font-size: 19px;
-            letter-spacing: 0.5px;
-            color: #FFFFFF;
-            line-height: 1;
-        }
-        .sr-brand-text .tag-badge {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
-            font-size: 8.5px;
-            font-weight: 800;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-            color: #FFB800;
-            margin-top: 4px;
-            background: rgba(255, 184, 0, 0.12);
-            border: 1px solid rgba(255, 184, 0, 0.25);
-            padding: 2px 7px;
-            border-radius: 4px;
-            width: fit-content;
+            text-decoration: none;
+        }
+        .sr-logo-img {
+            height: 52px;
+            max-height: 52px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .sr-brand:hover .sr-logo-img {
+            transform: scale(1.04);
+            opacity: 0.95;
         }
 
         .sr-nav-links {

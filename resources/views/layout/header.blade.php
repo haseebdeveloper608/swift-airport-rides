@@ -1,7 +1,7 @@
 @php
     $headerNavItems = \App\Models\NavigationItem::getTree();
     $siteName = SettingsHelper::get('site_name', 'Swift-Ride-taxis');
-    $siteLogo = SettingsHelper::get('logo');
+    $siteLogo = SettingsHelper::get('logo', 'images/logo.png');
     $companyPhone = SettingsHelper::get('company_phone', '020 1234 5678');
 @endphp
 
@@ -13,17 +13,7 @@
         <div class="d-flex align-items-center justify-content-between">
             <!-- Brand Logo -->
             <a href="{{ route('home') }}" class="sr-brand">
-                <span class="sr-brand-mark">
-                    @if($siteLogo)
-                        <img src="{{ asset($siteLogo) }}" alt="{{ $siteName }}" style="width:32px;height:32px;object-fit:contain;">
-                    @else
-                        <span class="cr-logo">SR</span>
-                    @endif
-                </span>
-                <span class="sr-brand-text">
-                    <span class="name">{{ $siteName }}</span>
-                    <span class="tag-badge"><i class="bi bi-shield-check me-1"></i> PREMIUM AIRPORT TRANSFERS</span>
-                </span>
+                <img src="{{ asset($siteLogo) }}" alt="{{ $siteName }}" class="sr-logo-img">
             </a>
 
             <!-- Desktop Nav Links (Database Driven) -->
@@ -80,17 +70,7 @@
 <div class="offcanvas offcanvas-end sr-offcanvas-sidebar" tabindex="-1" id="srMobileSidebar" aria-labelledby="srMobileSidebarLabel">
     <div class="offcanvas-header border-bottom border-secondary border-opacity-25 pb-3 pt-4 px-4">
         <a href="{{ route('home') }}" class="sr-brand">
-            <span class="sr-brand-mark">
-                @if($siteLogo)
-                    <img src="{{ asset($siteLogo) }}" alt="{{ $siteName }}" style="width:32px;height:32px;object-fit:contain;">
-                @else
-                    <span class="cr-logo">SR</span>
-                @endif
-            </span>
-            <span class="sr-brand-text">
-                <span class="name">{{ $siteName }}</span>
-                <span class="tag-badge"><i class="bi bi-shield-check me-1"></i> PREMIUM</span>
-            </span>
+            <img src="{{ asset($siteLogo) }}" alt="{{ $siteName }}" class="sr-logo-img">
         </a>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>

@@ -390,60 +390,21 @@
     }
 
     .sr-brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        text-decoration: none;
-    }
-    .sr-brand-mark {
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        background: linear-gradient(135deg, #091932 0%, #162B4E 100%);
-        border: 1.5px solid rgba(255,255,255,0.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-        position: relative;
-    }
-    .sr-brand-mark span.cr-logo {
-        font-family: var(--sr-font-display);
-        font-weight: 900;
-        font-size: 18px;
-        background: linear-gradient(135deg, #5843F6 0%, #4332D9 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        letter-spacing: -0.5px;
-    }
-    .sr-brand-text {
-        display: flex;
-        flex-direction: column;
-    }
-    .sr-brand-text .name {
-        font-family: var(--sr-font-display);
-        font-weight: 900;
-        font-size: 19px;
-        letter-spacing: 0.5px;
-        color: #FFFFFF;
-        line-height: 1;
-    }
-    .sr-brand-text .tag-badge {
         display: inline-flex;
         align-items: center;
-        gap: 4px;
-        font-size: 8.5px;
-        font-weight: 800;
-        letter-spacing: 1.2px;
-        text-transform: uppercase;
-        color: #FFB800;
-        margin-top: 4px;
-        background: rgba(255, 184, 0, 0.12);
-        border: 1px solid rgba(255, 184, 0, 0.25);
-        padding: 2px 7px;
-        border-radius: 4px;
-        width: fit-content;
+        text-decoration: none;
+    }
+    .sr-logo-img {
+        height: 52px;
+        max-height: 52px;
+        width: auto;
+        object-fit: contain;
+        display: block;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .sr-brand:hover .sr-logo-img {
+        transform: scale(1.04);
+        opacity: 0.95;
     }
 
     .sr-nav-links {
@@ -1437,6 +1398,10 @@
     @media (max-width: 991.98px) {
         .sr-section { padding: 0px 0; }
         .sr-hero { padding: 130px 0 70px; min-height: auto; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 50px), calc(100% - 50px) 100%, 50px 100%, 0 calc(100% - 50px)); }
+        .sr-badge-pill { display: none !important; }
+        .sr-hero h1 { text-align: center; }
+        .sr-hero-description,
+        .sr-hero p.lead-desc { text-align: center; margin-left: auto; margin-right: auto; }
         .sr-stats-wrapper { margin-top: -35px; }
         .sr-stats-capsule {
             grid-template-columns: repeat(2, 1fr);
@@ -1457,11 +1422,11 @@
         .sr-hero .col-lg-7,
         .sr-hero-copy { display: contents; }
         .sr-hero .col-lg-5 { order: 2; width: 100%; }
-        .sr-hero-description { order: 3; width: 100%; margin-top: 24px; }
+        .sr-hero-description { order: 3; width: 100%; margin-top: 24px; text-align: center; margin-left: auto; margin-right: auto; }
         .sr-benefits-grid { order: 4; width: 100%; }
-        .sr-badge-pill { font-size: 9.5px; padding: 6px 14px; letter-spacing: 1px; }
-        .sr-hero h1 { font-size: 1.8rem; letter-spacing: -0.5px; }
-        .sr-hero p.lead-desc { font-size: 14px; margin-bottom: 24px; }
+        .sr-badge-pill { display: none !important; }
+        .sr-hero h1 { font-size: 1.8rem; letter-spacing: -0.5px; text-align: center; width: 100%; }
+        .sr-hero p.lead-desc { font-size: 14px; margin-bottom: 24px; text-align: center; margin-left: auto; margin-right: auto; }
         .sr-benefits-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; width: 100%; }
         .sr-benefit-icon-box { width: 38px; height: 38px; font-size: 16px; margin-bottom: 6px; }
         .sr-benefit-title { font-size: 10px; }
@@ -1715,7 +1680,7 @@
             <div class="col-lg-5 ms-auto">
                 <div class="sr-quote-card">
                     <div class="sr-tabs d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
-                        <button type="button" class="sr-tab-btn active" data-tab="oneway"></button>
+                        <button type="button" class="sr-tab-btn active" data-tab="oneway">Check-in</button>
                         <span class="sr-discount-banner-line" style="background: #F0EEFF; color: #5843F6; font-size: 12px; font-weight: 800; padding: 6px 14px; border-radius: 50px; border: 1px solid rgba(88, 67, 246, 0.25); display: inline-flex; align-items: center; gap: 6px;">
                             <i class="fas fa-tags"></i> {!! $heroDiscountText !!}
                         </span>
@@ -1747,7 +1712,7 @@
 
                         <!-- Submit Button -->
                         <button type="submit" class="sr-quote-submit-btn">
-                            {{ strtoupper($heroSubmitText) }} <i class="bi bi-arrow-right fs-5"></i>
+                            Quote / Book Now <i class="bi bi-arrow-right fs-5"></i>
                         </button>
 
                         <p class="sr-quote-note-text"><i class="fas fa-percent text-primary me-1"></i> {!! $heroNoteText !!}</p>

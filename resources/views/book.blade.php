@@ -234,11 +234,12 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 20px;
-        margin-bottom: 20px;
+        margin-bottom: 2px;
     }
 
     .form-group {
         margin-bottom: 20px;
+        margin-top: 20px;
     }
 
     .form-group label {

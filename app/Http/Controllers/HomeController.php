@@ -35,8 +35,7 @@ class HomeController extends Controller
             ->take(3)
             ->get();
 
-        $homepage = Homepage::where('name', 'default')->first()
-            ?? Homepage::latest('id')->first();
+        $homepage = Homepage::where('name', 'default')->orWhere('slug', 'home')->first();
         $websiteSettings = WebsiteSetting::first() ?: WebsiteSetting::create([
             'hero_badge_text' => 'PREMIUM AIRPORT TRANSFERS ACROSS THE UK',
             'hero_title_line1' => 'Your Journey.',
