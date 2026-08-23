@@ -287,11 +287,9 @@ class PageController extends Controller
             }
         }
 
-        $data = array_intersect_key($data, array_flip(Schema::getColumnListing('pages')));
-
         if ($request->hasFile('rideon_image')) {
 
-            if ($homepage && $homepage->rideon_image) {
+            if ($homepage && isset($homepage->rideon_image) && $homepage->rideon_image) {
                 $old = str_replace('storage/', '', $homepage->rideon_image);
 
                 if (Storage::disk('public')->exists($old)) {
@@ -302,10 +300,12 @@ class PageController extends Controller
             $path = $request->file('rideon_image')->store('homepage', 'public');
             $data['rideon_image'] = 'storage/' . $path;
 
-        } elseif ($homepage) {
+        } elseif ($homepage && isset($homepage->rideon_image)) {
 
             $data['rideon_image'] = $homepage->rideon_image;
         }
+
+        $data = array_intersect_key($data, array_flip(Schema::getColumnListing('pages')));
 
         return $data;
     }
