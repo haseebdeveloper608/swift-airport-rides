@@ -1631,7 +1631,7 @@
             <div class="col-lg-7">
                 <div class="sr-hero-copy">
                     <div class="sr-badge-pill">
-                        <span class="gold-tag">{{ strtoupper(substr($heroBadgeText, 0, 15)) }}</span> {{ trim(str_replace(strtoupper(substr($heroBadgeText, 0, 15)), '', $heroBadgeText)) }}
+                        <span class="gold-tag">{!! $heroBadgeText !!}</span>
                     </div>
 
                     <h1>{!! $heroTitleLine1 !!}<br>{!! $heroTitlePrefix !!} <span class="grad-text">{!! $heroTitleGradient !!}.</span></h1>
