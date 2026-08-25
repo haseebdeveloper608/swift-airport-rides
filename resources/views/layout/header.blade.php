@@ -2,13 +2,38 @@
     $headerNavItems = \App\Models\NavigationItem::getTree();
     $siteName = SettingsHelper::get('site_name', 'Swift-Ride-taxis');
     $siteLogo = SettingsHelper::get('logo', 'images/logo.png');
-    $companyPhone = SettingsHelper::get('company_phone', '020 1234 5678');
+    $companyPhone = SettingsHelper::get('company_phone', '02033751609');
+    $companyEmail = SettingsHelper::get('company_email', 'hoponcars@gmail.com');
 @endphp
 
 <!-- ==========================================================================
      HEADER / NAVBAR
      ========================================================================== -->
 <header class="sr-header" id="srHeader">
+    <!-- Topbar -->
+    <div class="sr-topbar border-bottom border-white border-opacity-10 pb-2 pt-1 mb-2 d-none d-md-block" style="background: rgba(2, 7, 16, 0); font-size: 12.5px;">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <!-- Left: Phone & Email -->
+                <div class="d-flex align-items-center gap-4">
+                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $companyPhone) }}" class="text-white text-decoration-none d-inline-flex align-items-center gap-2 fw-semibold">
+                        <i class="bi bi-telephone-fill" style="color: #FF9900;"></i> {{ $companyPhone }}
+                    </a>
+                    <a href="mailto:{{ $companyEmail }}" class="text-white text-decoration-none d-inline-flex align-items-center gap-2 fw-semibold">
+                        <i class="bi bi-envelope-fill" style="color: #FF9900;"></i> {{ $companyEmail }}
+                    </a>
+                </div>
+
+                <!-- Right: 24/7 Support Badge -->
+                <div>
+                    <span class="sr-topbar-pill" style="border: 1px solid rgba(132, 204, 22, 0.4); background: rgba(132, 204, 22, 0.08); color: #F1F5F9; font-size: 11.5px; font-weight: 700; padding: 4px 14px; border-radius: 50px; display: inline-flex; align-items: center; gap: 6px;">
+                        <i class="bi bi-radar" style="color: #84CC16;"></i> 24/7 Support &bull; Live Flight Monitoring
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="d-flex align-items-center justify-content-between">
             <!-- Brand Logo -->

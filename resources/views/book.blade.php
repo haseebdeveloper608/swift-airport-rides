@@ -641,7 +641,7 @@
                         <div class="form-group">
                             <label><i class="fas fa-clock"></i> Pickup Time</label>
                             <div class="input-with-icon-wrap">
-                                <input type="text" name="pickup_time" class="custom-timepicker" required value="{{ old('pickup_time', $pickup_time ?: '10:00') }}" placeholder="Select pickup time">
+                                <input type="time" name="pickup_time"  required value="{{ old('pickup_time', $pickup_time ?: '10:00') }}" placeholder="Select pickup time">
                                 <i class="fas fa-clock input-icon"></i>
                             </div>
                         </div>
@@ -703,7 +703,7 @@
                         <div class="form-group">
                             <label><i class="fas fa-clock"></i> Return Time</label>
                             <div class="input-with-icon-wrap">
-                                <input type="text" name="return_time" class="custom-timepicker" value="{{ old('return_time', $return_time ?: '18:00') }}" placeholder="Select return time">
+                                <input type="time" name="return_time"  value="{{ old('return_time', $return_time ?: '18:00') }}" placeholder="Select return time">
                                 <i class="fas fa-clock input-icon"></i>
                             </div>
                         </div>

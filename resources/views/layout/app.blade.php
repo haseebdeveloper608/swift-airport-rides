@@ -572,7 +572,7 @@
             left: 0;
             right: 0;
             z-index: 100;
-            padding: 20px 0;
+            padding: 10px 0 20px;
             transition: all .3s ease;
         }
         .sr-header.sr-scrolled {
@@ -582,6 +582,9 @@
             padding: 12px 0;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             animation: srSlideDown .3s ease;
+        }
+        .sr-header.sr-scrolled .sr-topbar {
+            display: none !important;
         }
         @keyframes srSlideDown {
             from { transform: translateY(-100%); }
@@ -1187,8 +1190,8 @@
                 });
             });
 
-            // Time Pickers
-            const timeInputs = document.querySelectorAll('.custom-timepicker, input[type="time"]');
+            // Time Pickers (Only initialize flatpickr on explicit .custom-timepicker elements)
+            const timeInputs = document.querySelectorAll('.custom-timepicker');
             timeInputs.forEach(function(el) {
                 if (el.dataset.fpInitialized) return;
                 el.dataset.fpInitialized = 'true';
