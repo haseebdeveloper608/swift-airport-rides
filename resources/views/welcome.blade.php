@@ -1490,14 +1490,15 @@
 
     @media (max-width: 575.98px) {
         .sr-section { padding: 45px 0; }
-        .sr-hero { padding: 155px 10px 80px; clip-path: none; }
+        .sr-hero { padding: 135px 10px 60px; clip-path: none; }
+        .sr-hero .row { --bs-gutter-y: 10px !important; }
         .sr-hero .col-lg-7,
         .sr-hero-copy { display: contents; }
-        .sr-hero .col-lg-5 { order: 2; width: 100%; }
-        .sr-hero-description { order: 3; width: 100%; margin-top: 24px; text-align: center; margin-left: auto; margin-right: auto; }
+        .sr-hero .col-lg-5 { order: 2; width: 100%; margin-top: 10px !important; }
+        .sr-hero-description { order: 3; width: 100%; margin-top: 20px; text-align: center; margin-left: auto; margin-right: auto; }
         .sr-benefits-grid { order: 4; width: 100%; }
         .sr-badge-pill { display: none !important; }
-        .sr-hero h1 { font-size: 1.8rem; letter-spacing: -0.5px; text-align: center; width: 100%; }
+        .sr-hero h1 { font-size: 1.8rem; letter-spacing: -0.5px; text-align: center; width: 100%; margin-bottom: 4px !important; }
         .sr-hero p.lead-desc { font-size: 14px; margin-bottom: 24px; text-align: center; margin-left: auto; margin-right: auto; }
         .sr-benefits-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; width: 100%; }
         .sr-benefit-icon-box { width: 38px; height: 38px; font-size: 16px; margin-bottom: 6px; }
