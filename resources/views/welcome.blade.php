@@ -87,25 +87,35 @@
     $fleetHeading = $settings->fleet_heading ?? 'Travel in Comfort & Style';
     $fleetSubheading = $settings->fleet_subheading ?? 'A range of modern vehicles to suit your needs.';
     $fleetButtonText = $settings->fleet_view_all_text ?? 'View all vehicles';
-    $fleetVehicles = is_array($settings->fleet_vehicles ?? null) ? $settings->fleet_vehicles : [
-        ['name' => 'Saloon', 'pax' => '1-4', 'luggage' => '2', 'price' => '45', 'image' => asset('images/fleet_saloon.jpg')],
-        ['name' => 'Executive', 'pax' => '1-3', 'luggage' => '2', 'price' => '60', 'image' => asset('images/fleet_executive.jpg')],
-        ['name' => 'MPV', 'pax' => '1-6', 'luggage' => '4', 'price' => '70', 'image' => asset('images/fleet_mpv.jpg')],
-        ['name' => 'Minibus', 'pax' => '1-8', 'luggage' => '6', 'price' => '90', 'image' => asset('images/fleet_minibus.jpg')],
+    $defaultVehicles = [
+        ['name' => 'Saloon', 'pax' => '1-4', 'luggage' => '2', 'image' => asset('images/fleet_saloon.jpg')],
+        ['name' => 'Estate', 'pax' => '1-4', 'luggage' => '4', 'image' => asset('images/fleet_estate.jpg')],
+        ['name' => 'Executive', 'pax' => '1-3', 'luggage' => '2', 'image' => asset('images/fleet_executive.jpg')],
+        ['name' => 'MPV', 'pax' => '1-6', 'luggage' => '4', 'image' => asset('images/fleet_mpv.jpg')],
+        ['name' => 'Minibus', 'pax' => '1-8', 'luggage' => '8', 'image' => asset('images/fleet_minibus.jpg')],
     ];
+    $fleetVehicles = is_array($settings->fleet_vehicles ?? null) && count($settings->fleet_vehicles ?? []) > 0
+        ? $settings->fleet_vehicles
+        : $defaultVehicles;
 
-    $storyLabel = $settings->story_label ?? 'OUR STORY';
-    $storyHeadingLine1 = $settings->story_heading_line1 ?? 'The Journey Behind';
-    $storyHeadingLine2 = $settings->story_heading_line2 ?? 'Swift Ride Taxis';
-    $storyParagraph1 = $settings->story_paragraph1 ?? 'We understand that travelling can be stressful. From flight delays to last-minute changes, you need a transfer service you can rely on.';
-    $storyParagraph2 = $settings->story_paragraph2 ?? 'That\'s why we focus on punctuality, comfort and peace of mind — ensuring every journey is smooth from the moment you book with us.';
-    $storyImage = $resolveImage($settings->story_image ?? null, 'https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=800&q=80');
-    $storyValues = is_array($settings->story_values ?? null) ? $settings->story_values : [
-        ['title' => 'People First', 'description' => 'We treat every customer like a guest, not just a booking.', 'icon' => 'users'],
-        ['title' => 'Integrity', 'description' => 'Transparent pricing, honest service and no hidden surprises.', 'icon' => 'shield-alt'],
-        ['title' => 'Excellence', 'description' => 'From our drivers to our vehicles, we aim for excellence every time.', 'icon' => 'star'],
-        ['title' => 'Reliability', 'description' => 'Dependable service, every single time, whenever you need us.', 'icon' => 'handshake'],
-    ];
+    $hasEstate = false;
+    foreach ($fleetVehicles as &$v) {
+        if (strtolower($v['name'] ?? '') === 'saloon') { $v['pax'] = '1-4'; $v['luggage'] = '2'; }
+        if (strtolower($v['name'] ?? '') === 'estate') { $v['pax'] = '1-4'; $v['luggage'] = '4'; $hasEstate = true; }
+        if (strtolower($v['name'] ?? '') === 'executive') { $v['pax'] = '1-3'; $v['luggage'] = '2'; }
+        if (strtolower($v['name'] ?? '') === 'mpv') { $v['pax'] = '1-6'; $v['luggage'] = '4'; }
+        if (strtolower($v['name'] ?? '') === 'minibus') { $v['pax'] = '1-8'; $v['luggage'] = '8'; }
+    }
+    unset($v);
+    if (!$hasEstate) {
+        array_splice($fleetVehicles, 1, 0, [[
+            'name' => 'Estate',
+            'pax' => '1-4',
+            'luggage' => '4',
+            'image' => asset('images/fleet_estate.jpg')
+        ]]);
+    }
+
 
     $reviewsLabel = $settings->reviews_label ?? 'REVIEWS';
     $reviewsHeading = $settings->reviews_heading ?? 'What passengers are saying';
@@ -1300,6 +1310,8 @@
     .sr-vehicle-title-specs {
         display: flex;
         align-items: center;
+        justify-content: space-between;
+        width: 100%;
         gap: 12px;
     }
     .sr-vehicle-title-specs h5 {
@@ -1467,24 +1479,28 @@
         color: white;
     }
 
-    /* Mobile 1-Card Carousel with 3s Auto-Slide */
+    /* Carousel & Slider Styles */
+    .sr-mobile-slider {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        scroll-behavior: smooth !important;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .sr-mobile-slider::-webkit-scrollbar {
+        display: none;
+    }
+
     @media (max-width: 767.98px) {
         .sr-mobile-slider {
-            display: flex !important;
-            flex-wrap: nowrap !important;
-            overflow-x: auto !important;
             scroll-snap-type: x mandatory !important;
-            scroll-behavior: smooth !important;
-            -webkit-overflow-scrolling: touch;
             padding-bottom: 12px;
             margin-left: -12px;
             margin-right: -12px;
             padding-left: 12px;
             padding-right: 12px;
-        }
-
-        .sr-mobile-slider::-webkit-scrollbar {
-            display: none;
         }
 
         .sr-mobile-slider > [class*="col-"] {
@@ -2085,9 +2101,6 @@
                                     <span><i class="bi bi-briefcase"></i> {{ $vehicle['luggage'] ?? $vehicle['lug'] ?? '' }}</span>
                                 </div>
                             </div>
-                            <div class="sr-vehicle-price">
-                                From <strong>&pound;{{ $vehicle['price'] }}</strong>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -2097,64 +2110,6 @@
 </section>
 
 
-<!-- ==========================================================================
-     OUR STORY SECTION
-     ========================================================================== -->
-<section class="sr-section" id="our-story" style="background: linear-gradient(135deg, #F8F9FE 0%, #FFFFFF 100%);">
-    <div class="container">
-        <div class="row align-items-center g-5 g-lg-6">
-            <div class="col-lg-6">
-                <div class="mb-2">
-                    <span class="sr-label">{!! $storyLabel !!}</span>
-                </div>
-                <h2 class="sr-heading-lg" style="font-size: 2.4rem; line-height: 1.15; margin-top: 8px;">
-                        {!! $storyHeadingLine1 !!}<br>{!! $storyHeadingLine2 !!}
-                </h2>
-                <p class="mt-4 mb-4" style="color: #64748B; font-size: 15px; line-height: 1.6; max-width: 95%;">
-                        {!! $storyParagraph1 !!}
-                </p>
-                <p style="color: #475569; font-size: 15px; line-height: 1.6; max-width: 95%;">
-                        {!! $storyParagraph2 !!}
-                </p>
-
-                <div class="row g-3 mt-5">
-                    @foreach ($storyValues as $value)
-                        <div class="col-md-6">
-                            <div class="p-4" style="background: #FFFFFF; border-radius: 16px; border: 1px solid #E2E8F0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                                <div class="mb-3">
-                                    <div class="d-inline-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: #EEECFE; border-radius: 12px; color: #5843F6;">
-                                        <i class="fas fa-{{ $value['icon'] ?? 'star' }}" style="font-size: 24px;"></i>
-                                    </div>
-                                </div>
-                                <h6 style="font-weight: 700; color: #030812; margin-bottom: 8px;">{!! $value['title'] !!}</h6>
-                                <p style="font-size: 13px; color: #64748B; margin: 0; line-height: 1.5;">{!! $value['description'] !!}</p>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="position-relative">
-                    <div style="border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(3, 8, 18, 0.15);">
-                        <img src="{{ $storyImage }}" alt="Luxury airport transfer" style="width: 100%; display: block; border-radius: 20px;">
-                    </div>
-                    <div style="position: absolute; bottom: 20px; left: 20px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); padding: 20px 24px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); max-width: 280px;">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <div style="width: 50px; height: 50px; background: #5843F6; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white;">
-                                <i class="fas fa-car" style="font-size: 24px;"></i>
-                            </div>
-                            <div>
-                                <div style="font-weight: 700; color: #030812; font-size: 14px;">Swift Transfer</div>
-                                <div style="color: #64748B; font-size: 12px;">Professional Service</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 
 <!-- ==========================================================================
@@ -2392,7 +2347,7 @@
         }
 
         setupMobileAutoSlider('airportsSliderRow', 3000);
-        setupMobileAutoSlider('vehiclesSliderRow', 3000);
+        setupMobileAutoSlider('vehiclesSliderRow', 1500);
 
         // Arrow Navigation Buttons for Airports and Fleet sliders
         document.querySelectorAll('.sr-section').forEach(function (sec) {

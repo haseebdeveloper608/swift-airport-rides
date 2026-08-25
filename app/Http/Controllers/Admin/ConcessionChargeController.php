@@ -13,6 +13,10 @@ class ConcessionChargeController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->has('radius') && $request->input('radius') === '') {
+            $request->merge(['radius' => 0]);
+        }
+
         $data = $request->validate([
             'car_id' => 'nullable|exists:cars,id',
             'place' => 'required|string|max:255',
@@ -37,15 +41,15 @@ class ConcessionChargeController extends Controller
             'lng' => $data['lng'] ?? null,
         ]);
 
-        if ($request->wantsJson() || $request->ajax()) {
+        if ($request->expectsJson() || $request->wantsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Fare rule saved.',
+                'message' => 'Fare rule saved successfully!',
                 'data' => $charge,
             ]);
         }
 
-        return back()->with('success', 'Fare rule saved.');
+        return back()->with('success', 'Fare rule saved successfully!');
     }
 
     /**
@@ -55,9 +59,9 @@ class ConcessionChargeController extends Controller
     {
         $charge = ConcessionCharge::find($id);
         if (!$charge) {
-            return response()->json(['message' => 'Not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Fare rule not found'], 404);
         }
         $charge->delete();
-        return response()->json(['message' => 'Deleted'], 200);
+        return response()->json(['success' => true, 'message' => 'Fare rule deleted successfully!'], 200);
     }
 }

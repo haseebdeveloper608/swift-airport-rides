@@ -238,8 +238,8 @@
     }
 
     .form-group {
-        margin-bottom: 20px;
-        margin-top: 20px;
+        margin-bottom: 15px;
+        margin-top: 15px;
     }
 
     .form-group label {
@@ -572,6 +572,13 @@
                             <input type="text" id="head_passenger_name" name="head_passenger_name" required placeholder="Lead Passenger/Co. Name" value="{{ old('head_passenger_name', old('first_name') ? trim(old('first_name').' '.old('last_name')) : '') }}">
                         </div>
                         <div class="form-group">
+                            <label for="email"><i class="fas fa-envelope"></i> Passenger Email :</label>
+                            <input type="email" id="email" name="email" required placeholder="Passenger Email" value="{{ old('email') }}">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
                             <label for="phone"><i class="fas fa-phone"></i> Passenger Mobile :</label>
                             <div class="phone-input-group">
                                 <select name="phone_code" class="phone-code-select">
@@ -584,32 +591,26 @@
                                 <input type="tel" id="phone" name="phone" required placeholder="Phone number" value="{{ old('phone') }}">
                             </div>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email"><i class="fas fa-envelope"></i> Passenger Email :</label>
-                        <input type="email" id="email" name="email" required placeholder="Passenger Email" value="{{ old('email') }}">
-                    </div>
-
-                    <div class="form-row form-row-2col">
-                        <div class="form-group">
-                            <label for="passengers"><i class="fas fa-users"></i> Passengers :</label>
-                            <select id="passengers" name="passengers">
-                                @for($i = 1; $i <= 8; $i++)
-                                    <option value="{{ $i }}" {{ (int)old('passengers', $passengers) === $i ? 'selected' : '' }}>
-                                        {{ $i }} {{ $i === 1 ? 'Person' : 'Persons' }}
-                                    </option>
-                                @endfor
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="luggage"><i class="fas fa-suitcase"></i> Luggage :</label>
-                            <select id="luggage" name="luggage">
-                                <option value="">No Luggage</option>
-                                <option value="Hand Luggage">Hand Luggage</option>
-                                <option value="Suitecase">Suitecase</option>
-                                
-                            </select>
+                        <div class="form-row form-row-2col" style="gap: 10px;">
+                            <div class="form-group">
+                                <label for="passengers"><i class="fas fa-users"></i> Passengers :</label>
+                                <select id="passengers" name="passengers">
+                                    @for($i = 1; $i <= 8; $i++)
+                                        <option value="{{ $i }}" {{ (int)old('passengers', $passengers) === $i ? 'selected' : '' }}>
+                                            {{ $i }} {{ $i === 1 ? 'Person' : 'Persons' }}
+                                        </option>
+                                    @endfor
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="luggage"><i class="fas fa-suitcase"></i> Luggage :</label>
+                                <select id="luggage" name="luggage">
+                                    <option value="">No Luggage</option>
+                                    <option value="Hand Luggage" {{ old('luggage') === 'Hand Luggage' ? 'selected' : '' }}>Hand Luggage</option>
+                                    <option value="Suitcases" {{ old('luggage') === 'Suitcases' || old('luggage') === 'Suitecase' ? 'selected' : '' }}>Suitcases</option>
+                                    <option value="Hand Luggage + Suitcases" {{ old('luggage') === 'Hand Luggage + Suitcases' ? 'selected' : '' }}>Hand Luggage + Suitcases</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>

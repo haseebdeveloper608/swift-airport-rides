@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Faq;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class FaqController extends Controller
 {
     public function index()
     {
-        // Auto-seed default FAQs if table is empty
-        if (Faq::count() === 0) {
+        if (Schema::hasTable('faqs')) {
+            // Auto-seed default FAQs if table is empty
+            if (Faq::count() === 0) {
             $defaultFaqs = [
                 [
                     'question' => 'How do I book an airport transfer with Swift Ride Taxis?',
@@ -75,11 +77,14 @@ class FaqController extends Controller
             }
         }
 
-        $faqs = Faq::where('is_active', true)
-            ->orderBy('sort_order', 'asc')
-            ->orderBy('created_at', 'asc')
-            ->get()
-            ->groupBy('category');
+            $faqs = Faq::where('is_active', true)
+                ->orderBy('sort_order', 'asc')
+                ->orderBy('created_at', 'asc')
+                ->get()
+                ->groupBy('category');
+        } else {
+            $faqs = collect();
+        }
 
         return view('faq', compact('faqs'));
     }
