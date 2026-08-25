@@ -11,7 +11,7 @@
      ========================================================================== -->
 <header class="sr-header" id="srHeader">
     <!-- Topbar -->
-    <div class="sr-topbar border-bottom border-white border-opacity-10 pb-2 pt-1 mb-2" style="background: rgba(2, 7, 16, 0); font-size: 12px;">
+    <div class="sr-topbar border-bottom border-white border-opacity-10 pb-2 pt-2.5 mb-3 mb-md-2" style="background: rgba(2, 7, 16, 0); font-size: 12px;">
         <div class="container px-2 px-sm-3">
             <div class="d-flex align-items-center justify-content-center justify-content-md-between flex-wrap flex-md-nowrap gap-2 text-center text-md-start">
                 <!-- Phone & Email (Left on Desktop, Centered on Mobile) -->
@@ -24,8 +24,8 @@
                     </a>
                 </div>
 
-                <!-- 24/7 Support Badge (Right on Desktop, Centered on Mobile) -->
-                <div class="d-flex justify-content-center justify-content-md-end w-100 w-md-auto">
+                <!-- 24/7 Support Badge (Hidden on Mobile, Visible on Desktop) -->
+                <div class="d-none d-md-flex justify-content-md-end w-md-auto">
                     <span class="sr-topbar-pill" style="border: 1px solid rgba(132, 204, 22, 0.4); background: rgba(132, 204, 22, 0.08); color: #F1F5F9; font-size: 10.5px; font-weight: 700; padding: 3px 12px; border-radius: 50px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
                         <i class="bi bi-radar" style="color: #84CC16;"></i> 24/7 Support &bull; Live Flight Monitoring
                     </span>

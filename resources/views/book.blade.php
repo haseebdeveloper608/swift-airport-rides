@@ -115,9 +115,14 @@
     /* Booking Page Specific Styles */
     .booking-hero {
         background: linear-gradient(135deg, #0A142E 0%, #101E45 50%, #0A142E 100%);
-        padding: 100px 0 50px;
+        padding: 130px 0 50px;
         color: #fff;
         border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    @media (max-width: 767.98px) {
+        .booking-hero {
+            padding: 135px 0 35px;
+        }
     }
 
     .booking-hero h1 {
@@ -153,7 +158,7 @@
         }
 
         .booking-hero {
-            padding: 80px 0 40px;
+            padding: 150px 0 40px;
         }
 
         .booking-hero h1 {
