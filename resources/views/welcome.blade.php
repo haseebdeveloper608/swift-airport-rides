@@ -87,12 +87,36 @@
     $fleetHeading = $settings->fleet_heading ?? 'Travel in Comfort & Style';
     $fleetSubheading = $settings->fleet_subheading ?? 'A range of modern vehicles to suit your needs.';
     $fleetButtonText = $settings->fleet_view_all_text ?? 'View all vehicles';
-    $fleetVehicles = is_array($settings->fleet_vehicles ?? null) ? $settings->fleet_vehicles : [
-        ['name' => 'Saloon', 'pax' => '1-4', 'luggage' => '2', 'price' => '45', 'image' => asset('images/fleet_saloon.jpg')],
-        ['name' => 'Executive', 'pax' => '1-3', 'luggage' => '2', 'price' => '60', 'image' => asset('images/fleet_executive.jpg')],
-        ['name' => 'MPV', 'pax' => '1-6', 'luggage' => '4', 'price' => '70', 'image' => asset('images/fleet_mpv.jpg')],
-        ['name' => 'Minibus', 'pax' => '1-8', 'luggage' => '6', 'price' => '90', 'image' => asset('images/fleet_minibus.jpg')],
+    $defaultFleetVehicles = [
+        ['name' => 'Saloon', 'pax' => '1-4', 'luggage' => '2', 'image' => asset('images/fleet_saloon.jpg')],
+        ['name' => 'Estate', 'pax' => '1-4', 'luggage' => '4', 'image' => asset('images/fleet_estate.jpg')],
+        ['name' => 'Executive', 'pax' => '1-3', 'luggage' => '2', 'image' => asset('images/fleet_executive.jpg')],
+        ['name' => 'MPV', 'pax' => '1-6', 'luggage' => '4', 'image' => asset('images/fleet_mpv.jpg')],
+        ['name' => 'Minibus', 'pax' => '1-8', 'luggage' => '8', 'image' => asset('images/fleet_minibus.jpg')],
     ];
+    $fleetVehicles = is_array($settings->fleet_vehicles ?? null) && count($settings->fleet_vehicles ?? []) > 0
+        ? $settings->fleet_vehicles
+        : $defaultFleetVehicles;
+
+    $hasEstate = false;
+    foreach ($fleetVehicles as &$v) {
+        $nameLower = strtolower(trim($v['name'] ?? ''));
+        if ($nameLower === 'saloon') { $v['pax'] = '1-4'; $v['luggage'] = '2'; }
+        elseif ($nameLower === 'estate') { $v['pax'] = '1-4'; $v['luggage'] = '4'; $hasEstate = true; }
+        elseif ($nameLower === 'executive') { $v['pax'] = '1-3'; $v['luggage'] = '2'; }
+        elseif ($nameLower === 'mpv' || $nameLower === 'mpv 6') { $v['pax'] = '1-6'; $v['luggage'] = '4'; }
+        elseif ($nameLower === 'minibus' || str_contains($nameLower, 'minibus')) { $v['pax'] = '1-8'; $v['luggage'] = '8'; }
+    }
+    unset($v);
+
+    if (!$hasEstate) {
+        array_splice($fleetVehicles, 1, 0, [[
+            'name' => 'Estate',
+            'pax' => '1-4',
+            'luggage' => '4',
+            'image' => asset('images/fleet_estate.jpg')
+        ]]);
+    }
 
     $storyLabel = $settings->story_label ?? 'OUR STORY';
     $storyHeadingLine1 = $settings->story_heading_line1 ?? 'The Journey Behind';
@@ -133,6 +157,19 @@
         ['question' => 'At what airport location will my driver be waiting for me?', 'answer' => 'Your driver will meet you at the designated arrivals zone or entrance you specify during booking. We\'ll send you a meeting point confirmation.'],
         ['question' => 'Which British airports do you service?', 'answer' => 'We service all major UK airports including Heathrow, Gatwick, Stansted, Luton, London City, Manchester, Birmingham, and many more.'],
     ];
+
+    $sectionsEnabled = is_array($settings->sections_enabled ?? null) ? $settings->sections_enabled : [
+        'hero' => true,
+        'stats' => true,
+        'services' => true,
+        'about' => true,
+        'airports' => true,
+        'coverage' => true,
+        'fleet' => true,
+        'story' => true,
+        'reviews' => true,
+        'faq' => true,
+    ];
 @endphp
 
 <style>
@@ -153,6 +190,38 @@
         --sr-gradient-gold: linear-gradient(135deg, #FFB800 0%, #FF8A00 100%);
         --sr-font-display: 'Plus Jakarta Sans', sans-serif;
         --sr-font-body: 'Manrope', sans-serif;
+    }
+
+    /* Single Row Horizontal Slider for Fleet & Airports */
+    .sr-slider-single-row {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding-bottom: 12px;
+    }
+    .sr-slider-single-row::-webkit-scrollbar {
+        display: none;
+    }
+    .sr-slider-single-row > [class*="col-"] {
+        flex: 0 0 auto !important;
+        width: 270px !important;
+        max-width: 270px !important;
+    }
+    @media (min-width: 768px) {
+        .sr-slider-single-row > [class*="col-"] {
+            width: 300px !important;
+            max-width: 300px !important;
+        }
+    }
+    @media (min-width: 1200px) {
+        .sr-slider-single-row > [class*="col-"] {
+            width: 315px !important;
+            max-width: 315px !important;
+        }
     }
 
     /* ===== CUSTOM AUTOCOMPLETE DROPDOWN (EXACT REFERENCE DESIGN) ===== */
@@ -373,7 +442,7 @@
         left: 0;
         right: 0;
         z-index: 100;
-        padding: 10px 0 20px;
+        padding: 0px 0 20px;
         transition: all .3s ease;
     }
     .sr-header.sr-scrolled {
@@ -1627,6 +1696,7 @@
 <!-- ==========================================================================
      HERO SECTION
      ========================================================================== -->
+@if($sectionsEnabled['hero'] ?? true)
 <section class="sr-hero" id="quote" style="background-image: linear-gradient(110deg, rgba(3, 8, 18, 0.96) 25%, rgba(3, 8, 18, 0.75) 55%, rgba(3, 8, 18, 0.88) 100%), url('{{ $heroBackgroundImage }}');">
     <div class="container position-relative">
         <div class="row align-items-center gy-5">
@@ -1725,11 +1795,12 @@
         </div>
     </div>
 </section>
+@endif
 
 
 <!-- ==========================================================================
      STATS CAPSULE BAR
-     ========================================================================== -->
+     ========================================================================@if($sectionsEnabled['stats'] ?? true)
 <div class="container sr-stats-wrapper">
     <div class="sr-stats-capsule">
         @foreach ($stats as $stat)
@@ -1775,11 +1846,14 @@
         @endforeach
     </div>
 </div>
+@endif
+</div>
 
 
 <!-- ==========================================================================
      OUR SERVICES SECTION
      ========================================================================== -->
+@if($sectionsEnabled['services'] ?? true)
 <section class="sr-section" id="services">
     <div class="container">
         <div class="row align-items-center mb-5 gy-4">
@@ -1922,10 +1996,12 @@
         </div>
     </div>
 </section>
+@endif
 
 <!-- ==========================================================================
      TRUSTED TAXI PARTNER (ABOUT US SECTION)
      ========================================================================== -->
+@if($sectionsEnabled['about'] ?? true)
 <section class="sr-about-trusted-section py-5" id="trsued-about">
     <div class="container py-4">
         <div class="row align-items-center g-4 g-lg-5">
@@ -1971,11 +2047,13 @@
         </div>
     </div>
 </section>
+@endif
 
 
 <!-- ==========================================================================
      MAJOR AIRPORT TRANSFERS SECTION
      ========================================================================== -->
+@if($sectionsEnabled['airports'] ?? true)
 <section class="sr-section pt-0" id="airports">
     <div class="container">
         <div class="d-flex align-items-end justify-content-between mb-4 pb-2">
@@ -2011,11 +2089,13 @@
         </div>
     </div>
 </section>
+@endif
 
 
 <!-- ==========================================================================
      UK COVERAGE SECTION
      ========================================================================== -->
+@if($sectionsEnabled['coverage'] ?? true)
 <section class="sr-section">
     <div class="container">
         <div class="sr-coverage-banner">
@@ -2053,11 +2133,13 @@
         </div>
     </div>
 </section>
+@endif
 
 
 <!-- ==========================================================================
      OUR FLEET SECTION
      ========================================================================== -->
+@if($sectionsEnabled['fleet'] ?? true)
 <section class="sr-section pt-0" id="vehicles">
     <div class="container">
         <div class="d-flex align-items-end justify-content-between mb-4">
@@ -2073,7 +2155,7 @@
             </div>
         </div>
 
-        <div class="row g-3 g-md-4 sr-mobile-slider" id="vehiclesSliderRow">
+        <div class="row g-3 g-md-4 sr-mobile-slider sr-slider-single-row" id="vehiclesSliderRow">
             @foreach ($fleetVehicles as $vehicle)
                 <div class="col-6 col-lg-3">
                     <div class="sr-vehicle-card">
@@ -2081,15 +2163,12 @@
                             <img src="{{ $vehicle['image'] ?? $vehicle['img'] ?? '' }}" alt="{{ $vehicle['name'] }}" loading="lazy">
                         </div>
                         <div class="sr-vehicle-content">
-                            <div class="sr-vehicle-title-specs">
-                                <h5>{{ $vehicle['name'] }}</h5>
+                            <div class="sr-vehicle-title-specs w-100">
+                                <h5 class="mb-0">{{ $vehicle['name'] }}</h5>
                                 <div class="sr-vehicle-specs">
                                     <span><i class="bi bi-person"></i> {{ $vehicle['pax'] ?? $vehicle['seats'] ?? '' }}</span>
                                     <span><i class="bi bi-briefcase"></i> {{ $vehicle['luggage'] ?? $vehicle['lug'] ?? '' }}</span>
                                 </div>
-                            </div>
-                            <div class="sr-vehicle-price">
-                                From <strong>&pound;{{ $vehicle['price'] }}</strong>
                             </div>
                         </div>
                     </div>
@@ -2098,11 +2177,13 @@
         </div>
     </div>
 </section>
+@endif
 
 
 <!-- ==========================================================================
      OUR STORY SECTION
      ========================================================================== -->
+@if($sectionsEnabled['story'] ?? true)
 <section class="sr-section" id="our-story" style="background: linear-gradient(135deg, #F8F9FE 0%, #FFFFFF 100%);">
     <div class="container">
         <div class="row align-items-center g-5 g-lg-6">
@@ -2158,11 +2239,13 @@
         </div>
     </div>
 </section>
+@endif
 
 
 <!-- ==========================================================================
      REVIEWS / TESTIMONIALS SECTION
      ========================================================================== -->
+@if(($sectionsEnabled['reviews'] ?? true) && ($settings->reviews_enabled ?? true))
 <section class="sr-section" id="reviews" style="background: #F8F9FE;">
     <div class="container">
         <div class="text-center mb-5">
@@ -2205,11 +2288,13 @@
         </div>
     </div>
 </section>
+@endif
 
 
 <!-- ==========================================================================
      FAQ SECTION
      ========================================================================== -->
+@if(($sectionsEnabled['faq'] ?? true) && ($settings->faq_enabled ?? true))
 <section class="sr-section sr-faq-section" id="faq">
     <div class="container">
         <div class="text-center mb-5 sr-faq-intro">
@@ -2251,6 +2336,7 @@
         </div>
     </div>
 </section>
+@endif
 
 
 <!-- ==========================================================================
@@ -2357,8 +2443,8 @@
             });
         }
 
-        // Mobile 3-Second Auto-Slider for Major Airports & Fleet Cards
-        function setupMobileAutoSlider(sliderId, intervalTime = 3000) {
+        // Auto-Slider for Major Airports & Fleet Cards (Fast 1.5s interval for Fleet)
+        function setupAutoSlider(sliderId, intervalTime = 1500, mobileOnly = false) {
             const slider = document.getElementById(sliderId);
             if (!slider) return;
 
@@ -2366,7 +2452,7 @@
             let timer = null;
 
             function slideNext() {
-                if (window.innerWidth >= 768) return; // Only run on mobile screens
+                if (mobileOnly && window.innerWidth >= 768) return;
                 const children = slider.children;
                 if (!children.length) return;
 
@@ -2390,12 +2476,14 @@
 
             startTimer();
 
+            slider.parentElement.addEventListener('mouseenter', stopTimer);
+            slider.parentElement.addEventListener('mouseleave', startTimer);
             slider.addEventListener('touchstart', stopTimer, { passive: true });
             slider.addEventListener('touchend', startTimer, { passive: true });
         }
 
-        setupMobileAutoSlider('airportsSliderRow', 3000);
-        setupMobileAutoSlider('vehiclesSliderRow', 3000);
+        setupAutoSlider('airportsSliderRow', 2500, true);
+        setupAutoSlider('vehiclesSliderRow', 1500, false);
 
         // Arrow Navigation Buttons for Airports and Fleet sliders
         document.querySelectorAll('.sr-section').forEach(function (sec) {
@@ -2405,11 +2493,11 @@
 
             if (slider && prevBtn && nextBtn) {
                 prevBtn.addEventListener('click', function () {
-                    const scrollAmount = slider.firstElementChild ? slider.firstElementChild.clientWidth : 280;
+                    const scrollAmount = slider.firstElementChild ? (slider.firstElementChild.clientWidth + 16) : 280;
                     slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
                 });
                 nextBtn.addEventListener('click', function () {
-                    const scrollAmount = slider.firstElementChild ? slider.firstElementChild.clientWidth : 280;
+                    const scrollAmount = slider.firstElementChild ? (slider.firstElementChild.clientWidth + 16) : 280;
                     slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
                 });
             }

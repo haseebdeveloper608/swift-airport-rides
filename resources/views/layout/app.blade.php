@@ -572,7 +572,7 @@
             left: 0;
             right: 0;
             z-index: 100;
-            padding: 10px 0 20px;
+            padding: 0px 0 20px;
             transition: all .3s ease;
         }
         .sr-header.sr-scrolled {

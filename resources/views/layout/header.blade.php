@@ -11,22 +11,22 @@
      ========================================================================== -->
 <header class="sr-header" id="srHeader">
     <!-- Topbar -->
-    <div class="sr-topbar border-bottom border-white border-opacity-10 pb-2 pt-1 mb-2 d-none d-md-block" style="background: rgba(2, 7, 16, 0); font-size: 12.5px;">
-        <div class="container">
-            <div class="d-flex align-items-center justify-content-between">
-                <!-- Left: Phone & Email -->
-                <div class="d-flex align-items-center gap-4">
-                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $companyPhone) }}" class="text-white text-decoration-none d-inline-flex align-items-center gap-2 fw-semibold">
+    <div class="sr-topbar border-bottom border-white border-opacity-10 pb-2 pt-1 mb-2" style="background: rgba(2, 7, 16, 0); font-size: 12px;">
+        <div class="container px-2 px-sm-3">
+            <div class="d-flex align-items-center justify-content-center justify-content-md-between flex-wrap flex-md-nowrap gap-2 text-center text-md-start">
+                <!-- Phone & Email (Left on Desktop, Centered on Mobile) -->
+                <div class="d-flex align-items-center justify-content-center justify-content-md-start flex-wrap flex-md-nowrap gap-3 gap-sm-4 w-100 w-md-auto">
+                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $companyPhone) }}" class="text-white text-decoration-none d-inline-flex align-items-center gap-1.5 fw-semibold" style="white-space: nowrap;">
                         <i class="bi bi-telephone-fill" style="color: #FF9900;"></i> {{ $companyPhone }}
                     </a>
-                    <a href="mailto:{{ $companyEmail }}" class="text-white text-decoration-none d-inline-flex align-items-center gap-2 fw-semibold">
+                    <a href="mailto:{{ $companyEmail }}" class="text-white text-decoration-none d-inline-flex align-items-center gap-1.5 fw-semibold" style="white-space: nowrap;">
                         <i class="bi bi-envelope-fill" style="color: #FF9900;"></i> {{ $companyEmail }}
                     </a>
                 </div>
 
-                <!-- Right: 24/7 Support Badge -->
-                <div>
-                    <span class="sr-topbar-pill" style="border: 1px solid rgba(132, 204, 22, 0.4); background: rgba(132, 204, 22, 0.08); color: #F1F5F9; font-size: 11.5px; font-weight: 700; padding: 4px 14px; border-radius: 50px; display: inline-flex; align-items: center; gap: 6px;">
+                <!-- 24/7 Support Badge (Right on Desktop, Centered on Mobile) -->
+                <div class="d-flex justify-content-center justify-content-md-end w-100 w-md-auto">
+                    <span class="sr-topbar-pill" style="border: 1px solid rgba(132, 204, 22, 0.4); background: rgba(132, 204, 22, 0.08); color: #F1F5F9; font-size: 10.5px; font-weight: 700; padding: 3px 12px; border-radius: 50px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
                         <i class="bi bi-radar" style="color: #84CC16;"></i> 24/7 Support &bull; Live Flight Monitoring
                     </span>
                 </div>
