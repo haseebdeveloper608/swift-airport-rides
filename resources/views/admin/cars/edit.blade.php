@@ -551,13 +551,9 @@
 
         <div class="form-actions">
             <div class="delete-section">
-                <form action="{{ route('admin.cars.destroy', $car->id) }}" method="POST" onsubmit="return confirm('⚠️ Are you sure you want to delete this car? This action cannot be undone.');" style="display: inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn-delete">
-                        <i class="fas fa-trash-alt"></i> Delete Car
-                    </button>
-                </form>
+                <button type="button" class="btn-delete" onclick="if(confirm('⚠️ Are you sure you want to delete this car? This action cannot be undone.')) { document.getElementById('deleteCarForm').submit(); }">
+                    <i class="fas fa-trash-alt"></i> Delete Car
+                </button>
             </div>
             <div class="right-actions">
                 <a href="{{ route('admin.cars.index') }}" class="btn-cancel">
@@ -568,6 +564,11 @@
                 </button>
             </div>
         </div>
+    </form>
+
+    <form action="{{ route('admin.cars.destroy', $car->id) }}" method="POST" id="deleteCarForm" style="display: none;">
+        @csrf
+        @method('DELETE')
     </form>
 </div>
 @endsection
