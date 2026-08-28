@@ -7,6 +7,9 @@
     <title>@yield('title', 'Swift Ride Taxis | Premium Airport Transfers Across the UK')</title>
     <meta name="description" content="@yield('meta_description', 'Professional airport transfers, private taxi services and city-to-city rides across the UK. Fixed fares, expert drivers, 24/7 support.')">
 
+    <link rel="canonical" href="{{ url()->current() }}" />
+    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
