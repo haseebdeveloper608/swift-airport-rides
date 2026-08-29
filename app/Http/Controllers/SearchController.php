@@ -69,7 +69,7 @@ class SearchController extends Controller
             $returnDistance = $this->calculateDistance($returnPickup, $returnDropoff, $returnStops);
         }
 
-        $cars = Car::all()->map(function ($car) use (
+        $cars = Car::oldest()->get()->map(function ($car) use (
             $distance,
             $returnDistance,
             $tripType,
@@ -322,7 +322,7 @@ class SearchController extends Controller
             $distance = $this->calculateDistance($pickup, $dropoff, $stops, $pLat, $pLng, $dLat, $dLng);
         }
         
-        $cars = Car::all()->map(function($car) use ($distance, $tripType) {
+        $cars = Car::oldest()->get()->map(function($car) use ($distance, $tripType) {
             $price = $this->calculatePrice($car, $distance);
             
             if ($tripType === 'return') {
