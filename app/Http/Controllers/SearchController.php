@@ -69,7 +69,7 @@ class SearchController extends Controller
             $returnDistance = $this->calculateDistance($returnPickup, $returnDropoff, $returnStops);
         }
 
-        $cars = Car::orderBy('id', 'asc')->get()->map(function ($car) use (
+        $cars = Car::orderBy('id', 'desc')->get()->map(function ($car) use (
             $distance,
             $returnDistance,
             $tripType,
